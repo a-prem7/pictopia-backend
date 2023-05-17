@@ -34,6 +34,11 @@ app.use(morgan("dev")); // logging
 app.use(express.json()); // parse json bodies
 app.use(express.urlencoded({ extended: true }));
 
+/// Test Route
+app.get("/", (req, res) => {
+  res.send("hello world");
+});
+
 // LISTENER
 ////////////////////////////////
 app.listen(PORT, () => console.log(`listening on PORT ${PORT}`));
