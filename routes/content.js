@@ -23,17 +23,49 @@ ContentRouter.post("/create", getAuth, async (req, res) => {
   try {
     const { title, content, image } = req.body;
     if (title && content) {
-      const content = new Content({
+      const newContent = new Content({
         title,
         content,
         image,
         user: req.userId,
       });
-      await blog.save();
-      response(res, 200, { msg: "blog created", content: content });
+      await newContent.save();
+      response(res, 200, { msg: "blog created", content: newContent });
     }
   } catch (error) {
     response(res, 400, { error: error });
   }
 });
+
+ContentRouter.delete("/delete/:id", getAuth, async (req, res) => {
+  try {
+    const newContent = await Content.findOneAndDelete({
+      user: req.userId,
+      _id: req.params.id,
+    });
+    if (!newContent) {
+      return response(res, 404, { error: "blog not found" });
+    }
+    response(res, 200, { msg: "blog deleted!" });
+  } catch (error) {
+    response(res, 400, { error: error });
+  }
+});
+
+ContentRouter.put("/update/:id", getAuth, async (req, res) => {
+  const { title, content, image } = req.body;
+  await Content.findOneAndUpdate(
+    { user: req.userId, _id: req.params.id },
+    {
+      title,
+      content,
+      image,
+    }
+  )
+    .then((result) =>
+      response(res, 200, { msg: "blog updated", content: result })
+    )
+    .catch((err) => response(res, 400, err));
+});
+
 export default ContentRouter;
