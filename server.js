@@ -1,16 +1,19 @@
-require("dotenv").config();
+import express from "express";
+import dotenv from "dotenv";
 // pull PORT from .env, give default value of 4000
 // pull MONGODB_URL from .env
+dotenv.config();
 const { PORT = 4000, MONGODB_URL } = process.env;
 // import express
-const express = require("express");
+
 // create application object
 const app = express();
 // import mongoose
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 // import middlware
-const cors = require("cors");
-const morgan = require("morgan");
+import cors from "cors";
+import UserRouter from "./routes/user.js";
+import morgan from "morgan";
 
 ///////////////////////////////
 // DATABASE CONNECTION
@@ -33,15 +36,8 @@ app.use(cors({ credentials: true })); // to prevent cors errors, open access to 
 app.use(morgan("dev")); // logging
 app.use(express.json()); // parse json bodies
 app.use(express.urlencoded({ extended: true }));
-
-/// Test Route
-app.get("/", (req, res) => {
-  res.send("hello world");
-});
-
-app.get("/about", (req, res) => {
-  res.send("about page");
-});
+// Using Routes
+app.use("/backend/user", UserRouter);
 
 // LISTENER
 ////////////////////////////////
