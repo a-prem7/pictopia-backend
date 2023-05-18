@@ -39,6 +39,10 @@ app.get("/", (req, res) => {
   res.send("hello world");
 });
 
+app.get("/about", (req, res) => {
+  res.send("about page");
+});
+
 // LISTENER
 ////////////////////////////////
 app.listen(PORT, () => console.log(`listening on PORT ${PORT}`));
