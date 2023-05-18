@@ -1,5 +1,6 @@
 import Content from "../models/ContentSchema.js";
 import express from "express";
+import getAuth from "../middleware/auth.js";
 
 const ContentRouter = express.Router();
 ContentRouter.use(express.json());
@@ -18,7 +19,7 @@ ContentRouter.get("/", async (req, res) => {
     });
 });
 
-ContentRouter.post("/create", async (req, res) => {
+ContentRouter.post("/create", getAuth, async (req, res) => {
   const { title, content, image } = req.body;
   if (title && content) {
     response(res, 200, { msg: "blog created" });
