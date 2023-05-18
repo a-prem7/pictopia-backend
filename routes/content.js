@@ -20,10 +20,20 @@ ContentRouter.get("/", async (req, res) => {
 });
 
 ContentRouter.post("/create", getAuth, async (req, res) => {
-  const { title, content, image } = req.body;
-  if (title && content) {
-    response(res, 200, { msg: "blog created" });
+  try {
+    const { title, content, image } = req.body;
+    if (title && content) {
+      const content = new Content({
+        title,
+        content,
+        image,
+        user: req.userId,
+      });
+      await blog.save();
+      response(res, 200, { msg: "blog created", content: content });
+    }
+  } catch (error) {
+    response(res, 400, { error: error });
   }
 });
-
 export default ContentRouter;
