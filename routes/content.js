@@ -67,5 +67,11 @@ ContentRouter.put("/update/:id", getAuth, async (req, res) => {
     )
     .catch((err) => response(res, 400, err));
 });
+ContentRouter.get("/:id", getAuth, async (req, res) => {
+  await Content.findById(req.params.id)
+    .populate("user", "-password")
+    .then((result) => response(res, 200, result))
+    .catch((err) => response(res, 400, { error: err }));
+});
 
 export default ContentRouter;
