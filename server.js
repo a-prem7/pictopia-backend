@@ -13,7 +13,7 @@ import mongoose from "mongoose";
 // import middlware
 import cors from "cors";
 import UserRouter from "./routes/user.js";
-import ContentRouter from "./routes/content.js";
+import BlogRouter from "./routes/blog.js";
 import morgan from "morgan";
 
 ///////////////////////////////
@@ -39,7 +39,7 @@ app.use(express.json()); // parse json bodies
 app.use(express.urlencoded({ extended: true }));
 // Using Routes
 app.use("/backend/user", UserRouter);
-app.use("/backend/content", ContentRouter);
+app.use("/backend/blog", BlogRouter);
 
 // LISTENER
 ////////////////////////////////
